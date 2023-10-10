@@ -1,5 +1,5 @@
 import {Module} from '@nestjs/common';
-import {User, UserSchema} from "./user/User";
+import {User, UserSchema} from "./user/user.schema";
 import {MongooseModule} from "@nestjs/mongoose";
 import {ConfigModule} from '@nestjs/config';
 import * as process from "process";

@@ -1,19 +1,20 @@
 import {ConflictException, Injectable, NotFoundException} from "@nestjs/common";
 import {InjectModel} from "@nestjs/mongoose";
-import {User} from "./User";
+import {User} from "./user.schema";
 import {Model} from "mongoose";
-import {UserDto} from "./user.dto";
+import {CreateUserDto} from "./create-user.dto";
+import {UpdateUserDto} from "./update-user.dto";
 
 @Injectable()
 export class UserService {
     constructor(@InjectModel(User.name) private userModel: Model<User>) {
     }
 
-    async getAllUsers(): Promise<User[]> {
+    async getAll(): Promise<User[]> {
         return this.userModel.find();
     }
 
-    async create(user: UserDto): Promise<User> {
+    async create(user: CreateUserDto): Promise<User> {
         const {email} = user;
         const existingUser = await this.userModel.findOne({email});
 
@@ -28,7 +29,7 @@ export class UserService {
         return this.userModel.findByIdAndDelete(id);
     }
 
-    async update(id: string, user: UserDto): Promise<User> {
+    async update(id: string, user: UpdateUserDto): Promise<User> {
         return this.userModel.findByIdAndUpdate(id, user);
     }
 
