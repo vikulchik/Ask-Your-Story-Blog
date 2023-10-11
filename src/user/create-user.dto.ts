@@ -9,7 +9,10 @@ export class CreateUserDto {
 
     @IsNotEmpty()
     @IsString()
-    @Length(userConfig.userNameMinLength, userConfig.userNameMaxLength)
+    @Length(
+        userConfig.userNameMinLength,
+        userConfig.userNameMaxLength,
+        {message: userConfig.message})
     username: string;
 
     @IsString()
@@ -25,7 +28,10 @@ export class CreateUserDto {
     city: string;
 
     @IsString()
-    @Length(userConfig.aboutInfoMinLength, userConfig.aboutInfoMaxLength)
+    @Length(
+        userConfig.aboutInfoMinLength,
+        userConfig.aboutInfoMaxLength,
+        {message: userConfig.message})
     aboutInfo: string;
 
     @IsString()

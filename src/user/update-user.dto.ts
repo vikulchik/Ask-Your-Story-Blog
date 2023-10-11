@@ -7,7 +7,10 @@ export class UpdateUserDto {
     email: string;
 
     @IsString()
-    @Length(userConfig.userNameMinLength, userConfig.userNameMaxLength)
+    @Length(
+        userConfig.userNameMinLength,
+        userConfig.userNameMaxLength,
+        {message: userConfig.message})
     username: string;
 
     @IsString()

@@ -26,6 +26,8 @@ export class UserService {
     }
 
     async delete(id: string): Promise<void> {
+        await this.validateUserExisting(id);
+
         return this.userModel.findByIdAndDelete(id);
     }
 
@@ -33,13 +35,17 @@ export class UserService {
         return this.userModel.findByIdAndUpdate(id, user);
     }
 
-    async getUser(id: string): Promise<User> {
+    async validateUserExisting(id: string): Promise<User> {
         const existingUser = await this.userModel.findById(id);
 
         if (!existingUser) {
-            throw new NotFoundException(`User #${id} not found`);
+            throw new NotFoundException(`User not found`);
         }
 
         return existingUser;
+    }
+
+    async getUser(id: string): Promise<User> {
+        return await this.validateUserExisting(id);
     }
 }
