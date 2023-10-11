@@ -10,6 +10,6 @@ export class ParseObjectIdPipe implements PipeTransform<any, Types.ObjectId> {
             throw new BadRequestException('Invalid Id');
         }
 
-        return Types.ObjectId.createFromHexString(value);
+        return value;
     }
 }

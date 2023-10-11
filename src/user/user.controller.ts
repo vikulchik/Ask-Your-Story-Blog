@@ -23,7 +23,6 @@ export class UserController {
 
     @Delete(':id')
     async delete(@Param('id', ParseObjectIdPipe) id: string): Promise<void> {
-        // check if id exist
         await this.userService.delete(id);
     }
 
