@@ -1,9 +1,9 @@
-import {Body, Controller, Delete, Get, Param, Post, Put, UsePipes, ValidationPipe} from "@nestjs/common";
+import {Body, Controller, Delete, Get, Param, Post, Put} from "@nestjs/common";
 import {UserService} from "./user.service";
 import {CreateUserDto} from "./create-user.dto";
 import {User} from "./user.schema";
 import {UpdateUserDto} from "./update-user.dto";
-import {ParseObjectIdPipe} from "./user.pipe";
+import {ParseObjectIdPipe} from "../app.pipe";
 
 @Controller('users')
 export class UserController {
@@ -15,7 +15,6 @@ export class UserController {
         return await this.userService.getAll();
     }
 
-    @UsePipes(new ValidationPipe())
     @Post()
     async create(@Body() userDto: CreateUserDto): Promise<User> {
         return await this.userService.create(userDto);
@@ -26,7 +25,6 @@ export class UserController {
         await this.userService.delete(id);
     }
 
-    @UsePipes(new ValidationPipe())
     @Put(':id')
     async update(@Param('id', ParseObjectIdPipe) id: string, @Body() userDto: UpdateUserDto): Promise<User> {
         return await this.userService.update(id, userDto);
