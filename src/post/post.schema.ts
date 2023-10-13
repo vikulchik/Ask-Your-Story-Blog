@@ -3,7 +3,15 @@ import {Prop, Schema, SchemaFactory} from "@nestjs/mongoose";
 
 export type PostDocument = HydratedDocument<Posts>;
 
-@Schema({timestamps: true})
+@Schema({
+    timestamps: true,
+    toJSON: {
+        transform: function (doc, ret) {
+            ret.author = ret.authorId;
+            delete ret.authorId;
+        },
+    },
+})
 export class Posts {
     @Prop()
     text: string;
