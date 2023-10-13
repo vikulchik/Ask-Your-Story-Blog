@@ -22,8 +22,8 @@ export class PostService {
     }
 
     async delete(id: string): Promise<void> {
-
         await this.validatePostExisting(id);
+        
         return this.postModel.findByIdAndDelete(id);
     }
 
