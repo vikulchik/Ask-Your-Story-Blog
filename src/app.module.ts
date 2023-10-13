@@ -4,6 +4,7 @@ import {MongooseModule} from "@nestjs/mongoose";
 import {ConfigModule} from '@nestjs/config';
 import * as process from "process";
 import {UserModule} from "./user/user.module";
+import {PostModule} from "./post/post.module";
 
 @Module({
     imports: [
@@ -15,7 +16,8 @@ import {UserModule} from "./user/user.module";
             name: User.name,
             schema: UserSchema,
         }]),
-        UserModule
+        UserModule,
+        PostModule
     ],
     controllers: [],
     providers: [],
