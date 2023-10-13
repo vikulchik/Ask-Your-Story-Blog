@@ -15,7 +15,7 @@ export class Posts {
     likes: number;
 
     @Prop({type: mongoose.Types.ObjectId, ref: 'User'})
-    author: mongoose.Types.ObjectId;
+    authorId: mongoose.Types.ObjectId;
 
     @Prop()
     createdAt: Date;

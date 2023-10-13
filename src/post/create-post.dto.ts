@@ -5,9 +5,6 @@ export class CreatePostDto {
     @IsNotEmpty()
     text: string;
 
-    @IsString()
-    pictureUrl: string;
-
     @IsNotEmpty()
-    author: string;
+    authorId: string;
 }

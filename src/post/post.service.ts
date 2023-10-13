@@ -18,12 +18,12 @@ export class PostService {
     }
 
     async getAll(): Promise<Posts[]> {
-        return this.postModel.find().populate('author');
+        return this.postModel.find().populate('authorId');
     }
 
     async delete(id: string): Promise<void> {
         await this.validatePostExisting(id);
-        
+
         return this.postModel.findByIdAndDelete(id);
     }
 
@@ -36,7 +36,7 @@ export class PostService {
     }
 
     async validatePostExisting(id: string): Promise<Posts> {
-        const existingPost = await this.postModel.findById(id).populate('author');
+        const existingPost = await this.postModel.findById(id).populate('authorId');
 
         if (!existingPost) {
             throw new NotFoundException(`Post not found`);

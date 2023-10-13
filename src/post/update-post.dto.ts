@@ -5,9 +5,6 @@ export class UpdatePostDto {
     @IsNotEmpty()
     text: string;
 
-    @IsString()
-    pictureUrl: string;
-
     @IsNumber()
     likes: number;
 }
