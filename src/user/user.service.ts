@@ -1,13 +1,16 @@
-import {ConflictException, Injectable, NotFoundException} from "@nestjs/common";
+import {ConflictException, Injectable} from "@nestjs/common";
 import {InjectModel} from "@nestjs/mongoose";
 import {User} from "./user.schema";
 import {Model} from "mongoose";
 import {CreateUserDto} from "./create-user.dto";
 import {UpdateUserDto} from "./update-user.dto";
+import {BaseService} from "../common/base-service";
 
 @Injectable()
-export class UserService {
+export class UserService extends BaseService<User> {
+
     constructor(@InjectModel(User.name) private userModel: Model<User>) {
+        super();
     }
 
     async getAll(): Promise<User[]> {
@@ -26,7 +29,7 @@ export class UserService {
     }
 
     async delete(id: string): Promise<void> {
-        await this.validateUserExisting(id);
+        await this.validateEntityExisting(id, 'User');
 
         return this.userModel.findByIdAndDelete(id);
     }
@@ -35,17 +38,11 @@ export class UserService {
         return this.userModel.findByIdAndUpdate(id, user);
     }
 
-    async validateUserExisting(id: string): Promise<User> {
-        const existingUser = await this.userModel.findById(id);
-
-        if (!existingUser) {
-            throw new NotFoundException(`User not found`);
-        }
-
-        return existingUser;
+    async getUser(id: string): Promise<User> {
+        return await this.validateEntityExisting(id, 'User');
     }
 
-    async getUser(id: string): Promise<User> {
-        return await this.validateUserExisting(id);
+    async getById(id: string | number): Promise<User> {
+        return this.userModel.findById(id);
     }
 }

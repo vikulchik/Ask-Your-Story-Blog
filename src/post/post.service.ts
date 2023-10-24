@@ -1,16 +1,17 @@
-import {Injectable, NotFoundException} from "@nestjs/common";
+import {Injectable} from "@nestjs/common";
 import {InjectModel} from "@nestjs/mongoose";
 import {Model} from "mongoose";
 import {Posts} from "./post.schema";
 import {CreatePostDto} from "./create-post.dto";
 import {UpdatePostDto} from "./update-post.dto";
+import {BaseService} from "../common/base-service";
 
 @Injectable()
-export class PostService {
-
+export class PostService extends BaseService<Posts> {
     constructor(
         @InjectModel(Posts.name) private postModel: Model<Posts>
     ) {
+        super();
     }
 
     async create(post: CreatePostDto): Promise<Posts> {
@@ -22,26 +23,21 @@ export class PostService {
     }
 
     async delete(id: string): Promise<void> {
-        await this.validatePostExisting(id);
+        await this.validateEntityExisting(id, 'Post');
 
         return this.postModel.findByIdAndDelete(id);
     }
 
     async getPost(id: string): Promise<Posts> {
-        return await this.validatePostExisting(id);
+        return await this.validateEntityExisting(id, 'Post');
     }
 
-    async update(id: string, user: UpdatePostDto): Promise<Posts> {
-        return this.postModel.findByIdAndUpdate(id, user);
+    async update(id: string, post: UpdatePostDto): Promise<Posts> {
+        return this.postModel.findByIdAndUpdate(id, post);
     }
 
-    async validatePostExisting(id: string): Promise<Posts> {
-        const existingPost = await this.postModel.findById(id).populate('authorId');
-
-        if (!existingPost) {
-            throw new NotFoundException(`Post not found`);
-        }
-
-        return existingPost;
+    async getById(id: string | number): Promise<Posts> {
+        return this.postModel.findById(id).populate('authorId')
     }
+
 }
